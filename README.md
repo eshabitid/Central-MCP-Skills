@@ -1,5 +1,9 @@
 # Central MCP Skills Manager
 
+[![Build & Push Docker](https://github.com/eshabitid/Central-MCP-Skills/actions/workflows/docker.yml/badge.svg)](https://github.com/eshabitid/Central-MCP-Skills/actions/workflows/docker.yml)
+[![Docker Multi-Arch](https://img.shields.io/badge/Docker-amd64%20%7C%20arm64-2496ED?logo=docker&logoColor=white)](https://github.com/eshabitid/Central-MCP-Skills/pkgs/container/central-mcp-skills)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eshabitid/Central-MCP-Skills/blob/main/LICENSE)
+
 Central MCP Skills Manager hosts Agent Skills (`SKILL.md`) from multiple GitHub repositories in a single Docker stack. It combines a lightweight Web UI for repository and profile management with a remote Model Context Protocol (MCP) server for AI clients such as Cline, Roo Code, and OpenCode.
 
 ## Features
