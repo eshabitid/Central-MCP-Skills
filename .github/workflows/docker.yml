@@ -2,12 +2,11 @@ name: Build & Push Multi-Arch Docker Image
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch: # Agar bisa dijalankan manual dari tab Actions di GitHub
+    branches: ["main", "master"]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
@@ -19,6 +18,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Convert repository name to lowercase
+        id: lowercase
+        run: echo "repo=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU (untuk emulasi ARM64)
         uses: docker/setup-qemu-action@v3
@@ -37,7 +40,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ steps.lowercase.outputs.repo }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-
