@@ -36,20 +36,24 @@ Browser          ──(Web UI /)───────────►  skills-ui
 ```yaml
 services:
   skills-ui:
-    image: ghcr.io/username/repo:latest
+    image: ghcr.io/eshabitid/central-mcp-skills:latest
     container_name: mcp-skills-ui
     restart: unless-stopped
     command: uvicorn ui:app --host 0.0.0.0 --port 8001
-    environment:
-      # Auto-sync interval in seconds (21600 = 6 hours, 0 = disabled)
-      - SYNC_INTERVAL=21600
     ports:
       - "127.0.0.1:8001:8001"
+    environment:
+      - SYNC_INTERVAL=21600
     volumes:
       - skills_data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
 
   central-mcp:
-    image: ghcr.io/username/repo:latest
+    image: ghcr.io/eshabitid/central-mcp-skills:latest
     container_name: central-mcp
     restart: unless-stopped
     command: python server.py
